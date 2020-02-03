@@ -1,0 +1,22 @@
+
+# Note: leave empty if not using API public/private key
+apiKey:
+secret:
+
+MESSAGES:
+
+  message_1:
+    "\nPlease enter exchange to pull OHLCV data from:  "
+  message_1_error_handler:
+    "ERROR: Exchange  %  is not available.\n\n\n"
+
+  message_2:
+    "\nPlease enter API public key (press `Enter` if None):  "
+
+  message_3:
+    "\nPlease enter API private key (press `Enter` if None):  "
+
+  message_4: >-
+    Please enter your candle interval as an abbreviation.
+    NOTE: quotes are not needed in your entry.
+    Examples:  "5m", "1h", "4h", "1d"
