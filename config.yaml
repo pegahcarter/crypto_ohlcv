@@ -6,28 +6,72 @@ VARIABLES:
   API_PUBLIC_KEY:
   API_SECRET_KEY:
   EXCHANGE:
+  # Date string format:  "2019-01-01 00:00:00"
+  START_DATE:
+  END_DATE:
 
 
 # These are the messages sent to the user
 MESSAGES:
 
+
   message_1:
     "\n---\nPlease enter exchange to pull OHLCV data from:\n"
+
   message_1_error_handler:
     "---\n\nERROR: Exchange `%s`  is unavailable.\n\n"
 
+
   message_2:
-    "---\nPlease enter API public key (press `Enter` if None):  "
+    "\n---\nPlease enter API public key (press `Enter` if None):\n"
+
 
   message_3:
-    "---\nPlease enter API private key (press `Enter` if None):  "
+    "\n---\nPlease enter API private key (press `Enter` if None):\n"
+
 
   message_4: >
 
     ---
 
+    Please enter ticker of interest.
+
+    Examples:  "BTC/USD", "ETH/USDT", "EOS/BTC" (Quotes not needed in entry)
+
+  message_4_error_handler:
+    "---\n\nERROR: Ticker `%s`  does not exist.\n\n"
+
+
+  message_5: >
+
+    ---
+
     Please enter your candle interval as an abbreviation.
 
-    NOTE: quotes are not needed in your entry.
+    Examples:  "5m", "1h", "4h", "1d"  (Quotes not needed in entry)
 
-    Examples:  "5m", "1h", "4h", "1d"
+  message_5_error_handler:
+    "---\n\nERROR: Candle interval `%s`  does not exist.\n\n"
+
+
+  message_6: >
+
+    ---
+
+    Please enter start date.
+
+    Example: "2019-01-01 00:00:00"
+
+  message_6_error_handler:
+    ""
+
+
+  message_7: >
+    ---
+
+    Please enter end date.  (Leave empty for current date)
+
+    Example: "2019-12-31 23:00:00"
+
+  message_7_error_handler:
+    ""
