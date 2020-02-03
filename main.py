@@ -31,8 +31,8 @@ def setup():
 
         # Save all variables to VARIABLES
         VARIABLES['exchange'] = config['VARIABLES']['EXCHANGE']
-        VARIABLES['start_date'] = config['VARIABLES']['START_DATE']
-        VARIABLES['end_date'] = config['VARIABLES']['END_DATE']
+        # VARIABLES['start_date'] = config['VARIABLES']['START_DATE']
+        # VARIABLES['end_date'] = config['VARIABLES']['END_DATE']
 
 
 def main():
@@ -52,9 +52,9 @@ def main():
     # API_PRIVATE_KEY = input(MESSAGES['API_PRIVATE_KEY'])
 
     #  4. Enter ticker
-    VARIABLES['ticker'] = input(MESSAGES['ticker'])
+    VARIABLES['ticker'] = str(input(MESSAGES['ticker'])).upper()
     if VARIABLES['ticker'] not in exchange.fetch_tickers():
-        print(MESSAGES['ticker_not_found'] % VARIABLES['TICKER'])
+        print(MESSAGES['ticker_not_found'] % (VARIABLES['ticker'], VARIABLES['exchange']))
         return
 
     #  5. Enter candle_interval
@@ -66,13 +66,26 @@ def main():
         return
 
     #  6. Enter start_date
-    if VARIABLES['start_date'] is None:
-        VARIABLES['start_date'] = input(MESSAGES['start_date'])
+    VARIABLES['start_date'] = input(MESSAGES['start_date'])
+    if VARIABLES['start_date'] == '':
+        VARIABLES['start_date'] = None
+    else:
+        try:
+            VARIABLES['start_date'] = datetime.strptime(VARIABLES['start_date'], '%Y-%m-%d %H:%M:%S')
+        except:
+            print(MESSAGES['start_date_not_found'] % VARIABLES['start_date'])
+            return
 
     #  7. Enter end_date
-    if VARIABLES['end_date'] is None:
-        VARIABLES['end_date'] = input(MESSAGES['end_date'])
-
+    VARIABLES['end_date'] = input(MESSAGES['end_date'])
+    if VARIABLES['end_date'] == '':
+        VARIABLES['end_date'] = None
+    else:
+        try:
+            VARIABLES['end_date'] = datetime.strptime(VARIABLES['end_date'], '%Y-%m-%d %H:%M:%S')
+        except:
+            print(MESSAGES['end_date_not_found'] % VARIABLES['end_date'])
+            return
 
 
 

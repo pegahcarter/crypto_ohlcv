@@ -39,7 +39,7 @@ MESSAGES:
     Examples:  "BTC/USD", "ETH/USDT", "EOS/BTC" (Quotes not needed in entry)
 
   message_4_error_handler:
-    "---\n\nERROR: Ticker `%s`  does not exist.\n\n"
+    "---\n\nERROR: Ticker `%s`  is not available on %s.\n\n"
 
 
   message_5: >
@@ -58,12 +58,12 @@ MESSAGES:
 
     ---
 
-    Please enter start date.
+    Please enter start date (Leave empty for 500 most-recent OHLCV prices).
 
     Example: "2019-01-01 00:00:00"
 
   message_6_error_handler:
-    ""
+    "---\n\nERROR: Start date `%s`  cannot be parsed.\n\n"
 
 
   message_7: >
@@ -74,4 +74,4 @@ MESSAGES:
     Example: "2019-12-31 23:00:00"
 
   message_7_error_handler:
-    ""
+    "---\n\nERROR: End date `%s`  cannot be parsed.\n\n"
