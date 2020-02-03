@@ -1,23 +1,46 @@
+from datetime import datetime, timedelta
+import time
 import ccxt
+import yaml
 
+# Open config file
+with open('config.yaml', 'r') as myfile:
+    config = yaml.load(myfile, Loader=yaml.Loader)
+
+    messages = {}
+
+    messages['EXCHANGE'] = config['MESSAGES']['message_1']
+    messages['exchange_not_found'] = config['MESSAGES']['message_1_error_handler']
+
+    messages['API_PUBLIC_KEY'] = config['MESSAGES']['message_2']
+
+    messages['API_PRIVATE_KEY'] = config['MESSAGES']['message_3']
+
+    messages['CANDLE_INTERVAL'] = config['MESSAGES']['message_4']
+
+
+# Run main()
 
 def main():
 
-    # 1. Get name of exchange to pull data from
-    input_exchange = input('Please enter exchange to pull OHLCV data from:  ')
-    print('\n')
+    # 1. Get name of exchange to pull data from and make sure exchange exists
+    exchange_str = input(messages['EXCHANGE'])
     try:
-        exchange = getattr(ccxt, input_exchange.lower())
-        #  1a. Add API key if needed
+        exchange = getattr(ccxt, exchange_str.lower())
+    except:
+        print(messages['exchange_not_found'].format(exchange_str))
+        return
 
-        #  1b. Add API secret if needed
+    #  2. Add API key if needed
+    API_PUBLIC_KEY = input(messages['API_PUBLIC_KEY'])
+    #  3. Add API secret if needed
+    API_PRIVATE_KEY = input(messages['API_PRIVATE_KEY'])
 
-    except AttributeError as e:
-        return AttributeError(f'ERROR: Exchange  `{input_exchange}`  is not available.')
-    else:
-        # Continue on with input
-        #   2. Get candle_interval
-        input_interval = input('Please enter your candle interval as an abbreviation.  \nExamples:  "5m", "1h", "1d":  ')
+    #   4. Get candle_interval
+    CANDLE_INTERVAL = input(messages['CANDLE_INTERVAL'])
+
+
+
 
 
 
@@ -27,6 +50,11 @@ if __name__ == '__main__':
     print('\nDone')
 
 
+'''
+To-Do
+- [ ] Display all candle interval options
+- [ ] Input of a specific start date
+'''
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
