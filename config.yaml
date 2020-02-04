@@ -5,7 +5,7 @@ VARIABLES:
   # Note: leave empty if not using API public/private key
   API_PUBLIC_KEY:
   API_SECRET_KEY:
-  EXCHANGE:
+  EXCHANGE: "binance"
   # Date string format:  "2019-01-01 00:00:00"
   START_DATE:
   END_DATE:
@@ -15,19 +15,28 @@ VARIABLES:
 MESSAGES:
 
 
-  message_1:
-    "\n---\nPlease enter exchange to pull OHLCV data from:\n"
+  message_1: >
+
+    ---
+
+    Please enter exchange to pull OHLCV data from.
 
   message_1_error_handler:
     "---\n\nERROR: Exchange `%s`  is unavailable.\n\n"
 
 
-  message_2:
-    "\n---\nPlease enter API public key (press `Enter` if None):\n"
+  message_2: >
+
+    ---
+
+    Please enter API public key (press `Enter` if None).
 
 
-  message_3:
-    "\n---\nPlease enter API private key (press `Enter` if None):\n"
+  message_3: >
+
+      ---
+
+      Please enter API private key (press `Enter` if None).
 
 
   message_4: >
@@ -62,11 +71,15 @@ MESSAGES:
 
     Example: "2019-01-01 00:00:00"
 
-  message_6_error_handler:
+  message_6_error_handler1:
     "---\n\nERROR: Start date `%s`  cannot be parsed.\n\n"
+
+  message_6_error_handler2:
+    "---\n\nERROR: State date not available.  First date with price history is %s"
 
 
   message_7: >
+
     ---
 
     Please enter end date.  (Leave empty for current date)
