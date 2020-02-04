@@ -1,11 +1,11 @@
 
-# Fill in this variables
+# Fill in this variables (not required)
 VARIABLES:
 
-  # Note: leave empty if not using API public/private key
+  # NOTE: leave empty if not using API public/private key (TODO)
   API_PUBLIC_KEY:
   API_SECRET_KEY:
-  EXCHANGE: "binance"
+  EXCHANGE:
   # Date string format:  "2019-01-01 00:00:00"
   START_DATE:
   END_DATE:
