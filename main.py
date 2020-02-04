@@ -12,7 +12,7 @@ import re
 b = ccxt.binance()
 
 start_date = datetime(year=2013, month=1, day=1, hour=1)
-data = np.array(b.fetch_ohlcv('BTC/USDT', '1h', limit=500, since=int(time.mktime(start_date.timetuple())*1000)))
+data = np.array(b.fetch_ohlcv('BTC/USDT', '1h', limit=500, since=None))
 
 data[:, 0] /= 1000
 
@@ -97,9 +97,7 @@ def main():
 
     #  6. Enter start_date
     VARIABLES['start_date'] = input(MESSAGES['start_date'])
-    if VARIABLES['start_date'] == '':
-        VARIABLES['start_date'] = None
-    else:
+    if VARIABLES['start_date'] != '':
         try:
             VARIABLES['start_date'] = datetime.strptime(VARIABLES['start_date'], '%Y-%m-%d %H:%M:%S')
         except:
@@ -120,9 +118,7 @@ def main():
 
     #  7. Enter end_date
     VARIABLES['end_date'] = input(MESSAGES['end_date'])
-    if VARIABLES['end_date'] == '':
-        VARIABLES['end_date'] = datetime.now()
-    else:
+    if VARIABLES['end_date'] != '':
         try:
             VARIABLES['end_date'] = datetime.strptime(VARIABLES['end_date'], '%Y-%m-%d %H:%M:%S')
         except:
@@ -136,18 +132,23 @@ def main():
     print('\n---')
     response = input()
     if len(response) > 0:
-        print('\nEnding...\n')
+        print('\nEnding early.\n')
         return
+
+    # Update start_Date and end_date if empty
+    if VARIABLES['start_date'] == '':
+        VARIABLES['start_date'] = None
+    if VARIABLES['end_date'] == '':
+        VARIABLES['end_date'] = datetime.now()
 
     #  9. Get that motherfucking data
     df = []
-    while VARIABLES['start_date'] < VARIABLES['end_date']:
-        data = exchange.fetch_ohlcv(
-            VARIABLES['ticker'],
-            VARIABLES['candle_interval'],
-            limit=500,
-            since=int(time.mktime(VARIABLES['start_date'].timetuple())*1000)
-        )
+    while VARIABLES['start_date'] is None or VARIABLES['start_date'] < VARIABLES['end_date']:
+        if VARIABLES['start_date'] is None:
+            since=None
+        else:
+            since = int(time.mktime(VARIABLES['start_date'].timetuple())*1000)
+        data = exchange.fetch_ohlcv(VARIABLES['ticker'], VARIABLES['candle_interval'], limit=500, since=since)
         df.extend(data)
         last_date = datetime.fromtimestamp(np.array(data)[-1, 0]/1000)
         VARIABLES['start_date'] = last_date + timedelta(**timedelta_kwargs)
@@ -155,7 +156,7 @@ def main():
 
     df = pd.DataFrame(df, columns=['date', 'open', 'high', 'low', 'close', 'volume'])
     df['date'] = df['date'].apply(lambda x: datetime.fromtimestamp(x/1000))
-    df.to_csv(f'{VARIABLES['ticker'].replace("/", "-")}.csv', index=False)
+    df.to_csv(f'{VARIABLES["ticker"].replace("/", "-")}.csv', index=False)
 
     print('DONE')
 
