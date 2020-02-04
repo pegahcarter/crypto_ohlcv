@@ -2,13 +2,10 @@
 # Fill in this variables (not required)
 VARIABLES:
 
-  # NOTE: leave empty if not using API public/private key (TODO)
-  API_PUBLIC_KEY:
-  API_SECRET_KEY:
-  EXCHANGE:
-  # Date string format:  "2019-01-01 00:00:00"
-  START_DATE:
-  END_DATE:
+  EXCHANGE: ""
+  # NOTE: leave empty if not using API public/private key (TODO- add API validation)
+  API_PUBLIC_KEY: ""
+  API_SECRET_KEY: ""
 
 
 # These are the messages sent to the user
@@ -20,6 +17,8 @@ MESSAGES:
     ---
 
     Please enter exchange to pull OHLCV data from.
+
+    Examples: "binance", "bitfinex" (Quotes not needed in entry)
 
   message_1_error_handler:
     "---\n\nERROR: Exchange `%s`  is unavailable.\n\n"

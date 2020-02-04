@@ -7,21 +7,6 @@ import numpy as np
 import re
 
 
-# ------------------------------------------------------------------------------
-# Testing playground
-b = ccxt.binance()
-
-start_date = datetime(year=2013, month=1, day=1, hour=1)
-data = np.array(b.fetch_ohlcv('BTC/USDT', '1h', limit=500, since=None))
-
-data[:, 0] /= 1000
-
-first_date = datetime.fromtimestamp(data[0, 0])
-first_date
-
-
-# ------------------------------------------------------------------------------
-
 MESSAGES = {}
 VARIABLES = {}
 
@@ -37,7 +22,7 @@ def setup():
         MESSAGES['exchange'] = config['MESSAGES']['message_1']
         MESSAGES['exchange_not_found'] = config['MESSAGES']['message_1_error_handler']
         MESSAGES['api_public_key'] = config['MESSAGES']['message_2']
-        MESSAGES['api_private_key'] = config['MESSAGES']['message_3']
+        MESSAGES['api_secret_key'] = config['MESSAGES']['message_3']
         MESSAGES['ticker'] = config['MESSAGES']['message_4']
         MESSAGES['ticker_not_found'] = config['MESSAGES']['message_4_error_handler']
         MESSAGES['candle_interval'] = config['MESSAGES']['message_5']
@@ -50,14 +35,13 @@ def setup():
 
         # Save all variables to VARIABLES
         VARIABLES['exchange'] = config['VARIABLES']['EXCHANGE']
-        # VARIABLES['start_date'] = config['VARIABLES']['START_DATE']
-        # VARIABLES['end_date'] = config['VARIABLES']['END_DATE']
-
+        VARIABLES['api_public_key'] = config['VARIABLES']['API_PUBLIC_KEY']
+        VARIABLES['api_secret_key'] = config['VARIABLES']['API_SECRET_KEY']
 
 def main():
 
     #  1. Enter exchange used
-    if VARIABLES['exchange'] is None:
+    if VARIABLES['exchange'] == '':
         VARIABLES['exchange'] = str(input(MESSAGES['exchange'])).lower()
     try:
         exchange = getattr(ccxt, VARIABLES['exchange'])()
@@ -68,7 +52,7 @@ def main():
     #   2. Add API public key if needed
     # api_public_key = input(MESSAGES['api_public_key'])
     #  3. Add API private key if needed
-    # API_PRIVATE_KEY = input(MESSAGES['API_PRIVATE_KEY'])
+    # api_secret_key = input(MESSAGES['api_secret_key'])
 
     #  4. Enter ticker
     VARIABLES['ticker'] = str(input(MESSAGES['ticker'])).upper()
