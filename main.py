@@ -118,6 +118,8 @@ def main():
     if len(response) > 0:
         print('\nEnding early.\n')
         return
+    else:
+        print('\nLoading...\n')
 
     # Update start_Date and end_date if empty
     if VARIABLES['start_date'] == '':
