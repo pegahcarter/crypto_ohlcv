@@ -6,6 +6,25 @@ import pandas as pd
 import numpy as np
 import re
 
+# from ccxt import async_support
+# import asyncio
+# exchange = async_support.bitstamp({'enableRateLimit': True})
+
+# b = ccxt.binance()
+# response = b.load_markets()
+#
+# tickers = b.symbols
+#
+# max_len = len(max(tickers, key=len))
+#
+# tickers_formatted = [
+#     ''.join([tick.ljust(max_len+3, ' ')
+#     for tick in tickers[i:i+5]]).strip()
+#     for i in range(0, len(tickers), 5)
+# ]
+#
+# print('\n'.join(tickers_formatted))
+
 
 MESSAGES = {}
 VARIABLES = {}
@@ -38,9 +57,10 @@ def setup():
         VARIABLES['api_public_key'] = config['VARIABLES']['API_PUBLIC_KEY']
         VARIABLES['api_secret_key'] = config['VARIABLES']['API_SECRET_KEY']
 
+
 def main():
 
-    #  1. Enter exchange used
+    #  1. Enter exchange used and display tickers
     if VARIABLES['exchange'] == '':
         VARIABLES['exchange'] = str(input(MESSAGES['exchange'])).lower()
     try:
@@ -49,16 +69,34 @@ def main():
         print(MESSAGES['exchange_not_found'] % VARIABLES['exchange'])
         return
 
+
     #   2. Add API public key if needed
     # api_public_key = input(MESSAGES['api_public_key'])
     #  3. Add API private key if needed
     # api_secret_key = input(MESSAGES['api_secret_key'])
 
+
     #  4. Enter ticker
+    # First, display available tickers
+    markets = exchange.load_markets()
+    tickers = sorted(exchange.symbols)
+
+    max_len = len(max(tickers, key=len))
+
+    tickers_formatted = [''.join([tick.ljust(max_len+3, ' ')
+                         for tick in tickers[i:i+5]]).strip()
+                         for i in range(0, len(tickers), 5)]
+
+    print('Available tickers: \n')
+    print('\n'.join(tickers_formatted))
+
     VARIABLES['ticker'] = str(input(MESSAGES['ticker'])).upper()
-    if VARIABLES['ticker'] not in exchange.fetch_tickers():
+    try:
+        response = exchange.fetch_ohlcv(VARIABLES['ticker'])
+    except:
         print(MESSAGES['ticker_not_found'] % (VARIABLES['ticker'], VARIABLES['exchange']))
         return
+
 
     #  5. Enter candle_interval
     VARIABLES['candle_interval'] = input(MESSAGES['candle_interval'])

@@ -44,7 +44,6 @@ MESSAGES:
 
     Please enter ticker of interest.
 
-    Examples:  "BTC/USD", "ETH/USDT", "EOS/BTC" (Quotes not needed in entry)
 
   message_4_error_handler:
     "---\n\nERROR: Ticker `%s`  is not available on %s.\n\n"
