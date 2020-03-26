@@ -12,7 +12,7 @@ and have used the CLI (Command Line Interface) before.
 3. `pip install -r Requirements.txt`
 4. `python main.py`
 
-Boom!  Easy as pie.
+It's that easy.
 
 Files will automatically save in the `crypto_ohlcv` folder.
 
